@@ -24,20 +24,25 @@ const useStyles = makeStyles((theme: Theme) =>
 const DefaultLayout: React.FC = (props) => {
     const classes = useStyles()
     return <>
-        <Grid container>
-            <Hidden smUp>
-                <AppBar position="static">
-                    <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" className={classes.title}>
-                            Z ORG
+        <Hidden smUp>
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" className={classes.title}>
+                        Z ORG
                          </Typography>
-                    </Toolbar>
-                </AppBar>
+                </Toolbar>
+            </AppBar>
+        </Hidden>
+        <Grid container>
+            <Hidden xsDown>
+                <Grid item sm={4} md={3} lg={2}>
+                    menu
+                </Grid>
             </Hidden>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={8} md={9} lg={10}>
                 {props.children}
             </Grid>
         </Grid>
