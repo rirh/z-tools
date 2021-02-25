@@ -25,7 +25,7 @@ const DefaultLayout: React.FC = (props) => {
     const classes = useStyles()
     return <>
         <Grid container>
-            <Hidden only={'sm'}>
+            <Hidden smUp>
                 <AppBar position="static">
                     <Toolbar>
                         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
