@@ -1,16 +1,20 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import { Grid, Hidden } from '@material-ui/core'
+import { MenuInHeader, MenuInHome } from 'src/components/HomeMenu'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             flexGrow: 1,
+            padding: theme.spacing(0, 4)
+        },
+        menu: {
+            display: 'flex',
+            justifyContent: 'center',
+            // alignItems: 'center'
+            borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+
         },
         menuButton: {
             marginRight: theme.spacing(2),
@@ -18,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             flexGrow: 1,
         },
+
     }),
 );
 
@@ -25,24 +30,15 @@ const DefaultLayout: React.FC = (props) => {
     const classes = useStyles()
     return <>
         <Hidden smUp>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        Z ORG
-                         </Typography>
-                </Toolbar>
-            </AppBar>
+            <MenuInHeader></MenuInHeader>
         </Hidden>
-        <Grid container>
+        <Grid container className={classes.root}>
             <Hidden xsDown>
-                <Grid item sm={4} md={3} lg={2}>
-                    menu
+                <Grid className={classes.menu} item sm={4} md={4} lg={3}>
+                    <MenuInHome></MenuInHome>
                 </Grid>
             </Hidden>
-            <Grid item xs={12} sm={8} md={9} lg={10}>
+            <Grid item xs={12} sm={8} md={7} lg={9}>
                 {props.children}
             </Grid>
         </Grid>
