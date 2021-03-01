@@ -2,11 +2,19 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 import { HOME_URL, Home, HOME_ICON, } from 'src/pages/Home/Home'
 import { LOGIN_URL, Login } from 'src/pages/Login/Login'
+import { ENCODING_URL, Encoding } from 'src/pages/Encoding/Encoding'
 
 
 
 export const AllRoutesList = [{
-    name: '登录',
+    name: 'EnCoding',
+    path: ENCODING_URL,
+    component: Encoding,
+    icon: HOME_ICON,
+    ismenu: false,
+},
+{
+    name: 'Login',
     path: LOGIN_URL,
     component: Login,
     icon: null,

@@ -7,7 +7,10 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             flexGrow: 1,
-            padding: theme.spacing(0, 4)
+            padding: theme.spacing(0, 4),
+            [theme.breakpoints.down("xs")]: {
+                padding: 0,
+            }
         },
         menu: {
             display: 'flex',
@@ -22,6 +25,10 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             flexGrow: 1,
         },
+        content: {
+            height: '100vh',
+            overflow: 'scroll'
+        }
 
     }),
 );
@@ -38,7 +45,7 @@ const DefaultLayout: React.FC = (props) => {
                     <MenuInHome></MenuInHome>
                 </Grid>
             </Hidden>
-            <Grid item xs={12} sm={8} md={7} lg={9}>
+            <Grid className={classes.content} item xs={12} sm={8} md={7} lg={9}>
                 {props.children}
             </Grid>
         </Grid>
