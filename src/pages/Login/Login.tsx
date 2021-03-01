@@ -1,6 +1,13 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom'
 import { Grid, Card, Typography, TextField, Button, CircularProgress } from '@material-ui/core'
 import { createStyles, makeStyles, Theme, } from '@material-ui/core/styles';
+import { postSignIn } from 'src/pages/Login/_res-api'
+import { HOME_URL } from 'src/pages/Home/Home'
+
+import { RootState } from 'src/app/store'
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUserInfo } from 'src/pages/Login/_store'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,11 +63,30 @@ const useStyles = makeStyles((theme: Theme) =>
     }))
 export const Login: React.FC = () => {
     const classes = useStyles()
+    const history = useHistory()
+    const dispatch = useDispatch();
+
     const [user, setUser] = React.useState('')
     const [pwd, setPwd] = React.useState('')
-    const login_loading = false;
-    const handleLogin = () => {
+    const [loading, setLoading] = React.useState(false);
 
+    const userInfo = useSelector((store: RootState) => store.login.user);
+    const userid = userInfo.uid || '';
+    React.useEffect(() => {
+        if (userid) history.push(HOME_URL)
+    }, [userid, history])
+
+    const handleLogin = async () => {
+        setLoading(true);
+        const respone: any = await postSignIn({
+            username: user,
+            password: pwd,
+        })
+        setLoading(false);
+        dispatch(updateUserInfo(respone));
+        if (respone.code === 0) {
+            history.push(HOME_URL)
+        }
     }
     return <>
         <Grid container className={classes.root} >
@@ -95,11 +121,11 @@ export const Login: React.FC = () => {
                             !user ||
                             !pwd
                         } color={(user && pwd) ? "primary" : 'default'}
-                        size="large"
-                        variant="contained" onClick={handleLogin} fullWidth>
-                            {login_loading ? <CircularProgress style={{ color: 'white' }} size="1rem" /> : '登录'}
+                            size="large"
+                            variant="contained" onClick={handleLogin} fullWidth>
+                            {loading ? <CircularProgress style={{ color: 'white' }} size="1rem" /> : '登录'}
                         </Button>
-    
+
                     </Grid>
                 </Card>
             </Grid>

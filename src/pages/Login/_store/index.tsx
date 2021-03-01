@@ -1,6 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export const name = "login";
+export interface userInfo {
+  [key: string]: any
+}
+
+export interface res {
+  code: number
+  message: string
+  msg: string
+  token: string
+  tokenExpired: number
+  type: string
+  uid: string,
+  userInfo: userInfo
+}
+
 export const reducers = {
   increment: (state: any) => {
     // Redux Toolkit allows us to write "mutating" logic in reducers. It
@@ -15,10 +30,16 @@ export const reducers = {
   incrementByAmount: (state: any, _: PayloadAction<any>) => {
     state.value += _.payload;
   },
+  updateUserInfo: (state: any, _: PayloadAction<any>) => {
+    state.user = _.payload;
+  },
 };
 
 export const initialState = {
   value: 0,
+  user: {
+    uid: null
+  }
 };
 export const loginSlice = createSlice({
   name,
@@ -27,4 +48,4 @@ export const loginSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = loginSlice.actions;
+export const { increment, decrement, incrementByAmount, updateUserInfo } = loginSlice.actions;
