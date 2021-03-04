@@ -136,7 +136,16 @@ export const Home: React.FC = () => {
         title: 'URL Encoding',
         desc: '编码与解码',
         url: ENCODING_URL,
-    },]
+    },
+	{
+	    title: 'Undraw',
+	    desc: 'svg 网站',
+	    url: 'https://undraw.co/search',
+	    avatar: "https://undraw.co/favicon.ico"
+	},
+	
+	
+	];
     return <DefaultLayout>
         <Grid container className={classes.root}>
             <Hidden xsDown>
@@ -149,7 +158,7 @@ export const Home: React.FC = () => {
                 {cardlist.map(e => <Grid key={e.title} item xs={12} sm={6} md={4} lg={4}>
                     <a
                         href={e.url}
-                        target={"http".includes(e.url) ? '_blank' : ''}
+                        target={e.url.startsWith('http') ? '_blank' : ''}
                         rel="noopener noreferrer"
                         className={classes.link}
                     >
