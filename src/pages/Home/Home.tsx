@@ -113,7 +113,7 @@ export const Home: React.FC = () => {
         title: 'Tencent Music',
         desc: 'QQ 音乐',
         url: 'https://y.qq.com/',
-        avatar: "https://www.bilibili.com/favicon.ico?v=1"
+        avatar: "https://www.bilibili.com/favicon.ico"
     },
     {
         title: 'Iqiyi',
@@ -137,15 +137,15 @@ export const Home: React.FC = () => {
         desc: '编码与解码',
         url: ENCODING_URL,
     },
-	{
-	    title: 'Undraw',
-	    desc: 'svg 网站',
-	    url: 'https://undraw.co/search',
-	    avatar: "https://undraw.co/favicon.ico"
-	},
-	
-	
-	];
+    {
+        title: 'Undraw',
+        desc: 'svg 网站',
+        url: 'https://undraw.co/search',
+        avatar: "https://undraw.co/favicon.ico"
+    },
+
+
+    ];
     return <DefaultLayout>
         <Grid container className={classes.root}>
             <Hidden xsDown>
@@ -163,8 +163,8 @@ export const Home: React.FC = () => {
                         className={classes.link}
                     >
                         <Paper className={classes.paper} variant="outlined" >
-                            <Avatar variant="rounded" className={classes.rounded}>
-                                {e.avatar ? <img src={e.avatar} alt={e.title}></img> : e.title[0]}
+                            <Avatar variant="rounded" className={classes.rounded} src={e.avatar} alt={e.title}>
+                                {e.title[0]}
                             </Avatar>
                             <div className={classes.flow}>
                                 <div className={classes.cardTitle}>
