@@ -62,11 +62,11 @@ const useStyles = makeStyles((theme: Theme) =>
             placeItems: 'center',
             fontSize: '1.8rem',
             borderRadius: '3px',
-            filter: 'grayscale(.3)',
+            filter: 'grayscale(-1.2)',
             fontWeight: 'bold',
             "& img": {
-                height: '32px',
-                width: '32px'
+                height: '28px',
+                width: '28px'
             }
         },
         flow: {
@@ -113,13 +113,13 @@ export const Home: React.FC = () => {
         title: 'Tencent Music',
         desc: 'QQ 音乐',
         url: 'https://y.qq.com/',
-        avatar: "https://www.bilibili.com/favicon.ico"
+        avatar: "https://y.qq.com/favicon.ico"
     },
     {
         title: 'Iqiyi',
         desc: '爱奇艺',
         url: 'https://www.iqiyi.com/',
-        avatar: "https://www.iqiyipic.com/common/fix/128-128-logo.png"
+        avatar: "https://www.iqiyi.com/favicon.ico"
     },
     {
         title: 'bilibili',
@@ -143,8 +143,18 @@ export const Home: React.FC = () => {
         url: 'https://undraw.co/search',
         avatar: "https://undraw.co/favicon.ico"
     },
-
-
+    {
+        title: 'Runoob',
+        desc: '工具箱子',
+        url: 'https://c.runoob.com/',
+        avatar: "https://www.runoob.com/favicon.ico"
+    },
+    {
+        title: 'Devtool',
+        desc: 'Devtool 前端工具',
+        url: 'https://devtool.tech/',
+        avatar: "https://devtool.tech/favicon.ico"
+    },
     ];
     return <DefaultLayout>
         <Grid container className={classes.root}>
