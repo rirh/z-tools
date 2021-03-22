@@ -2,7 +2,6 @@ import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Grid, Hidden } from '@material-ui/core'
 import { MenuInHeader, MenuInHome } from 'src/components/HomeMenu'
-
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {

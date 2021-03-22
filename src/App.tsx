@@ -1,6 +1,7 @@
 import React from 'react';
 import { CssBaseline } from '@material-ui/core'
-import store from 'src/app/store'
+import { store, persistor } from 'src/app/store'
+import { PersistGate } from 'redux-persist/integration/react'
 import { Provider } from 'react-redux'
 import smoothscroll from 'smoothscroll-polyfill'
 
@@ -14,10 +15,12 @@ smoothscroll.polyfill()
 function App() {
   return (
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <AllRouter />
-      </ThemeProvider>
+      <PersistGate persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <AllRouter />
+        </ThemeProvider>
+      </PersistGate>
     </Provider>
   );
 }

@@ -31,22 +31,21 @@ const useStyles = makeStyles((theme: Theme) =>
             minWidth: '215px',
             cursor: 'pointer',
             width: '100%',
-            userSelect: 'none',
+            // userSelect: 'none',
             display: 'flex',
             border: 'none',
             color: '#333',
-            backgroundColor: '#f4f4f4',
+            backgroundColor: 'white',
             "& .MuiAvatar-root": {
-                backgroundColor: '#f4f4f4',
+                backgroundColor: 'white',
             },
             "&:hover": {
-                backgroundColor: '#eee',
-                color: '#000'
+                transform: 'scale(1.1)'
             },
-            "&:hover .MuiAvatar-root": {
-                backgroundColor: '#eee',
-                color: '#000'
-            },
+            // "&:hover .MuiAvatar-root": {
+            //     backgroundColor: '#eee',
+            //     color: '#000'
+            // },
             [theme.breakpoints.down("xs")]: {
                 "&:hover": {
                     backgroundColor: '#f4f4f4',
@@ -55,28 +54,28 @@ const useStyles = makeStyles((theme: Theme) =>
             }
         },
         rounded: {
-            height: '4rem',
-            width: '4rem',
+            height: '70px',
+            width: '70px',
             color: '#333',
             display: 'grid',
             placeItems: 'center',
             fontSize: '1.8rem',
             borderRadius: '3px',
             filter: 'grayscale(-1.2)',
-            fontWeight: 'bold',
+            // fontWeight: 'bold',
             "& img": {
-                height: '28px',
-                width: '28px'
+                height: '30px',
+                width: '30px'
             }
         },
         flow: {
             flex: 1,
-            marginLeft: theme.spacing(1.5)
+            marginLeft: theme.spacing(0)
         },
         cardTitle: {
-            fontSize: '18px',
+            fontSize: '16px',
             fontWeight: 'bold',
-            marginTop: '7px',
+            marginTop: '10px',
         },
         carDesc: {
             fontSize: '13px',
@@ -163,7 +162,6 @@ export const Home: React.FC = () => {
                     <Typography >Home</Typography>
                 </Grid>
             </Hidden>
-
             <Grid container spacing={5} >
                 {cardlist.map(e => <Grid key={e.title} item xs={12} sm={6} md={4} lg={4}>
                     <a
@@ -172,7 +170,7 @@ export const Home: React.FC = () => {
                         rel="noopener noreferrer"
                         className={classes.link}
                     >
-                        <Paper className={classes.paper} variant="outlined" >
+                        <Paper className={classes.paper}  >
                             <Avatar variant="rounded" className={classes.rounded} src={e.avatar} alt={e.title}>
                                 {e.title[0]}
                             </Avatar>

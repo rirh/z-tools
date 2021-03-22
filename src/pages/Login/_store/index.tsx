@@ -47,5 +47,7 @@ export const loginSlice = createSlice({
   reducers,
 });
 
+export const selectLogin = (state: any) => state[loginSlice.name]
+
 // Action creators are generated for each case reducer function
 export const { increment, decrement, incrementByAmount, updateUserInfo } = loginSlice.actions;

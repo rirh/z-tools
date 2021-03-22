@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from '@material-ui/core/Drawer'
 import Divider from '@material-ui/core/Divider'
+import { Profile } from './Profile'
 
 import clsx from 'clsx';
 import { AllRoutesList } from 'src/routes'
@@ -140,6 +141,7 @@ export const MenuInHome: React.FC = () => {
         <div className={classes.logoP} >
             <img src={logoUrl} alt="" />
         </div>
+        <Profile></Profile>
         <div className={classes.contant}>
             {menuList.map(e => <Link key={e.path} className={clsx(classes.linkP, {
                 [classes.active]: e.path === location.pathname

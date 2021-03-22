@@ -4,7 +4,7 @@ export default createMuiTheme({
     MuiCssBaseline: {
       "@global": {
         body: {
-          backgroundColor: "white",
+          backgroundColor: "#fafafa",
         },
       },
     },

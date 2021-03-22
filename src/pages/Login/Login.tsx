@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 alignItems: 'flex-start',
             },
         },
-
         signinCard: {
             width: '100%',
             boxShadow: '0px 0px 60px rgb(0 0 0 / 10%)',
@@ -52,12 +51,17 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: '10px',
         },
         tips: {
-
+            "& a": {
+                textDecoration: 'underline'
+            }
         },
         item: {
             width: '100%',
             boxSizing: 'border-box',
-            padding: theme.spacing(.5, 4)
+            padding: theme.spacing(.5, 4),
+            '& button': {
+                marginTop: theme.spacing(5)
+            }
         }
 
     }))
