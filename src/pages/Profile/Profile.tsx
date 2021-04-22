@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Hidden, Typography, Avatar, TextField, IconButton, Chip } from '@material-ui/core'
+import { Grid, Hidden, Typography, Avatar, TextField, IconButton, Chip, Button } from '@material-ui/core'
 import { createStyles, makeStyles, Theme, } from '@material-ui/core/styles';
 import { Edit, FileCopy } from '@material-ui/icons';
 import * as dayjs from 'dayjs'
@@ -10,7 +10,8 @@ import DefaultLayout from 'src/layout/DefaultLayout'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectLogin } from 'src/pages/Login/_store/index'
 import { updateNotice } from 'src/app/app'
-
+import { postLogOut } from 'src/pages/Profile/_res-api'
+import { updateUserInfo } from 'src/pages/Login/_store'
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -108,6 +109,13 @@ export const Profile: React.FC = () => {
     }, [userInfo])
     const handleCopy = () => {
         dispatch(updateNotice({ open: true, message: '复制成功！', severity: 'success' }))
+    }
+    const handleLogout = async () => {
+        const respone: any = await postLogOut({
+            token: userInfo.token
+        })
+        if (respone.code === 0)
+            dispatch(updateUserInfo({}));
     }
 
     return <DefaultLayout>
@@ -210,6 +218,9 @@ export const Profile: React.FC = () => {
                 <Grid item className={classes.value} >
                     {userInfo?.role.map((item: string, i: number) => <Chip color="primary" key={i} label={item} />)}
                 </Grid>
+            </Grid>
+            <Grid className={classes.item} container spacing={1} alignItems="center">
+                <Button variant="contained" color="primary" onClick={handleLogout} >退出登录</Button>
             </Grid>
         </Grid>
 
