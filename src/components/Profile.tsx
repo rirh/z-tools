@@ -1,11 +1,12 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Avatar, Typography, Fade } from '@material-ui/core'
+import { Avatar, Typography, Fade, } from '@material-ui/core'
 
-import { useSelector, useDispatch } from 'react-redux'
-import { selectLogin, updateUserInfo } from 'src/pages/Login/_store/index'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectLogin } from 'src/pages/Login/_store/index'
 
-import { postLogOut } from 'src/pages/Login/_res-api'
+// import { postLogOut } from 'src/pages/Login/_res-api'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,27 +40,35 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Profile: React.FC = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const { user } = useSelector(selectLogin);
 
     const { userInfo } = user;
-    const handleLogout = async () => {
-        const respone: any = await postLogOut({
-            token: userInfo.token
-        })
-        if (respone.code === 0)
-            dispatch(updateUserInfo({}));
-
-    }
+    // const handleLogout = async () => {
+    //     const respone: any = await postLogOut({
+    //         token: userInfo.token
+    //     })
+    //     if (respone.code === 0)
+    //         dispatch(updateUserInfo({}));
+    // }
+    // const handlePushProfile = async () => {
+    //     const respone: any = await postLogOut({
+    //         token: userInfo.token
+    //     })
+    //     if (respone.code === 0)
+    //         dispatch(updateUserInfo({}));
+    // }
 
     return Boolean(user.uid) ?
         <Fade in={Boolean(user.uid)}>
             <div className={classes.root}>
-                <div onClick={handleLogout}>
+                <div >
                     <Avatar src={userInfo?.avatarUrl || userInfo?.email} alt={userInfo?.avatarUrl || userInfo?.email}></Avatar>
                 </div>
                 <div className={classes.info}>
-                    <Typography variant="body1" className={classes.title}>{userInfo?.nickName || userInfo?.email.split('@')[0]}</Typography>
+                    <Link to="/profile">
+                        <Typography variant="body1" className={classes.title}>{userInfo?.nickName || userInfo?.email.split('@')[0]}</Typography>
+                    </Link>
                     <Typography variant="body1" className={classes.uid}>@{user.uid.slice(0, 6)}</Typography>
                 </div>
             </div >

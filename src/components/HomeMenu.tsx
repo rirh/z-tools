@@ -109,7 +109,7 @@ export const MenuInHeader: React.FC = () => {
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
                     Z ORG
-                 </Typography>
+                </Typography>
                 <Drawer anchor={'left'} open={open} onClose={() => setOpen(false)}>
                     <div className={classes.drawer}>
                         <div className={classes.logo} >

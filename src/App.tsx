@@ -8,7 +8,7 @@ import smoothscroll from 'smoothscroll-polyfill'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { hot } from 'react-hot-loader'
 import theme from 'src/theme'
-
+import { ZSnackbar } from 'src/components/ZSnackbar'
 import AllRouter from 'src/routes/index'
 smoothscroll.polyfill()
 
@@ -19,6 +19,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <AllRouter />
+          <ZSnackbar />
         </ThemeProvider>
       </PersistGate>
     </Provider>

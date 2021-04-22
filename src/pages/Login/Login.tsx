@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
             boxSizing: 'border-box',
             padding: theme.spacing(.5, 4),
             '& button': {
-                marginTop: theme.spacing(5)
+                marginTop: theme.spacing(4)
             }
         }
 
@@ -119,7 +119,6 @@ export const Login: React.FC = () => {
                     <Grid className={classes.item}>
                         <TextField id="pwd" size="medium" inputProps={{ "autoComplete": 'off' }} value={pwd} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPwd(e.target.value)} fullWidth placeholder="请输入密码" type="password" variant="outlined" />
                     </Grid>
-                    <br />
                     <Grid className={classes.item}>
                         <Button disabled={
                             !user ||
@@ -129,8 +128,8 @@ export const Login: React.FC = () => {
                             variant="contained" onClick={handleLogin} fullWidth>
                             {loading ? <CircularProgress style={{ color: 'white' }} size="1rem" /> : '登录'}
                         </Button>
-
                     </Grid>
+                    <br/>
                 </Card>
             </Grid>
         </Grid>

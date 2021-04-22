@@ -9,6 +9,7 @@ import storage from "redux-persist/lib/storage";
 
 import { homeSlice } from "src/pages/Home/_store/index";
 import { loginSlice } from "src/pages/Login/_store/index";
+import { appSlice } from "src/app/app";
 
 const persistConfig = {
   key: "root",
@@ -19,6 +20,7 @@ const middleware = [...getDefaultMiddleware({ serializableCheck: false })];
 export const rootReducer = combineReducers({
   [homeSlice.name]: homeSlice.reducer,
   [loginSlice.name]: loginSlice.reducer,
+  [appSlice.name]: appSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -154,6 +154,12 @@ export const Home: React.FC = () => {
         url: 'https://devtool.tech/',
         avatar: "https://devtool.tech/favicon.ico"
     },
+    {
+        title: 'Funds',
+        desc: '基金实时净值查询',
+        url: 'https://tools.datumwealth.com/valuation/',
+        avatar: "https://tools.datumwealth.com/valuation/icons/16x16.png"
+    },
     ];
     return <DefaultLayout>
         <Grid container className={classes.root}>
