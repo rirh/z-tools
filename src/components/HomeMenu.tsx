@@ -98,7 +98,7 @@ export const MenuInHeader: React.FC = () => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false)
     const location = useLocation();
-    const menuList = AllRoutesList.filter(e => e.ismenu);
+    const menuList = AllRoutesList.filter(e => e.ismenu).reverse();
 
 
     return <>

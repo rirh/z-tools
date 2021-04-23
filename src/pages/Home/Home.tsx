@@ -160,6 +160,12 @@ export const Home: React.FC = () => {
         url: 'https://tools.datumwealth.com/valuation/',
         avatar: "https://tools.datumwealth.com/valuation/icons/16x16.png"
     },
+    {
+        title: 'Ops-coffee',
+        desc: '各大热搜',
+        url: 'https://ops-coffee.cn/',
+        avatar: "https://blz.nosdn.127.net/sre/images/nav/favicon.ico"
+    },
     ];
     return <DefaultLayout>
         <Grid container className={classes.root}>
