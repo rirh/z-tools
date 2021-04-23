@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Grid, Hidden, Typography, Avatar, TextField, IconButton, Chip, Button } from '@material-ui/core'
+import React, { useState, useEffect, useRef } from 'react';
+import { Grid, Hidden, Typography, Avatar, TextField, IconButton, Chip, Button, Backdrop, CircularProgress } from '@material-ui/core'
 import { createStyles, makeStyles, Theme, } from '@material-ui/core/styles';
 import { Edit, FileCopy } from '@material-ui/icons';
 import * as dayjs from 'dayjs'
@@ -10,8 +10,11 @@ import DefaultLayout from 'src/layout/DefaultLayout'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectLogin } from 'src/pages/Login/_store/index'
 import { updateNotice } from 'src/app/app'
-import { postLogOut } from 'src/pages/Profile/_res-api'
+import { postLogOut, postGetUserInfo, postUpdateUserInfo } from 'src/pages/Profile/_res-api'
 import { updateUserInfo } from 'src/pages/Login/_store'
+import { getUserAvatar } from 'src/utils'
+
+import axios from 'axios';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -89,7 +92,14 @@ const useStyles = makeStyles((theme: Theme) =>
                 height: '16px',
                 width: '16px',
             },
-        }
+        },
+        backdrop: {
+            zIndex: theme.zIndex.drawer + 1,
+            color: '#fff',
+            "& img": {
+                width: '50vw'
+            }
+        },
     }))
 
 export const Profile: React.FC = () => {
@@ -97,25 +107,70 @@ export const Profile: React.FC = () => {
     const history = useHistory()
     const dispatch = useDispatch()
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [avatar_url, set_avatar_url] = useState('');
     const { user } = useSelector(selectLogin);
+    const [open, setOpen] = React.useState(false);
     const { userInfo } = user;
+    const [logout_loading, set_logout_loading] = React.useState(false);
+    const avatarFile = useRef(null)
     useEffect(() => {
-        if (!userInfo) {
+        if (!user.uid) {
             history.push(LOGIN_URL)
         } else {
             setEmail(userInfo?.email)
+            setUsername(userInfo?.username)
+            postGetUserInfo({ uid: user.uid }).then((response: any) => {
+                const nuser = JSON.parse(JSON.stringify(user))
+                nuser.userInfo = response.userInfo
+                dispatch(updateUserInfo(nuser));
+            })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userInfo])
+    }, [user.uid])
     const handleCopy = () => {
         dispatch(updateNotice({ open: true, message: '复制成功！', severity: 'success' }))
     }
     const handleLogout = async () => {
+        set_logout_loading(true)
         const respone: any = await postLogOut({
             token: userInfo.token
         })
+        set_logout_loading(false)
         if (respone.code === 0)
             dispatch(updateUserInfo({}));
+    }
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleToggle = () => {
+        if (avatar_url || userInfo?.avatarUrl)
+            setOpen(!open);
+    };
+    interface Event<T = EventTarget> {
+        target: T;
+    }
+
+    const handleUpload = (event: Event) => {
+        // console.log(avatarFile.current?.files)
+        const [file] = (event.target as any)?.files;
+        let formdata = new FormData()
+        formdata.append('file', file, file.name)
+        axios.post('https://crypto2server-576164.service.tcloudbase.com/upload', formdata, {
+            headers: {
+                'accept': 'application/json',
+                'Accept-Language': 'en-US,en;q=0.8',
+                'Content-Type': 'multipart/form-data;charset=UTF-8'
+            }
+        }).then(async ({ data }) => {
+            set_avatar_url(data.fileList[0].download_url)
+            await postUpdateUserInfo({
+                uid: user.uid,
+                avatarUrl: data.fileList[0].download_url
+            })
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     return <DefaultLayout>
@@ -125,6 +180,9 @@ export const Profile: React.FC = () => {
                     <Typography >Profile</Typography>
                 </Grid>
             </Hidden>
+            <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+                <img src={avatar_url || userInfo?.avatarUrl} alt="" />
+            </Backdrop>
             <Grid className={classes.item} container spacing={1} alignItems="center">
                 <Grid item className={classes.label}>
                     头像
@@ -132,14 +190,15 @@ export const Profile: React.FC = () => {
                 <Grid item className={classes.value}>
                     <Grid className={`${classes.avatar} ${classes.item}`} container spacing={1} alignItems="center">
                         <Grid item>
-                            <Avatar className={classes.large} src={userInfo?.avatarUrl || userInfo?.email} alt={userInfo?.avatarUrl || userInfo?.email}></Avatar>
+                            <Avatar onClick={handleToggle} className={classes.large} src={avatar_url || getUserAvatar(userInfo)} alt={getUserAvatar(userInfo)}></Avatar>
                         </Grid>
                         <Grid item>
                             <input
+                                ref={avatarFile}
                                 accept="image/*"
                                 className={classes.uploadInput}
                                 id="contained-button-file"
-                                multiple
+                                onChange={handleUpload}
                                 type="file"
                             />
                             <label htmlFor="contained-button-file">
@@ -153,10 +212,18 @@ export const Profile: React.FC = () => {
             </Grid>
             <Grid className={classes.item} container spacing={1} alignItems="center">
                 <Grid item className={classes.label}>
+                    用户名
+                </Grid>
+                <Grid item className={classes.value} >
+                    <TextField disabled={logout_loading} size="small" style={{ width: '350px' }} onChange={(e) => { setUsername(e.target.value) }} value={username} id="outlined-basic" />
+                </Grid>
+            </Grid>
+            <Grid className={classes.item} container spacing={1} alignItems="center">
+                <Grid item className={classes.label}>
                     邮箱
                 </Grid>
                 <Grid item className={classes.value} >
-                    <TextField size="small" style={{ width: '80%' }} onChange={(e) => { setEmail(e.target.value) }} value={email} id="outlined-basic" variant="filled" />
+                    <TextField disabled={logout_loading} size="small" style={{ width: '350px' }} onChange={(e) => { setEmail(e.target.value) }} value={email} id="outlined-basic" />
                 </Grid>
             </Grid>
             <Grid className={classes.item} container spacing={1} alignItems="center">
@@ -164,7 +231,7 @@ export const Profile: React.FC = () => {
                     邀请码
                 </Grid>
                 <Grid item className={classes.value} >
-                    {userInfo?.my_invite_code}
+                    <Chip  label={userInfo?.my_invite_code}></Chip>
                     <CopyToClipboard text={userInfo?.my_invite_code} onCopy={handleCopy}>
                         <IconButton className={classes.copy} >
                             <FileCopy />
@@ -216,11 +283,13 @@ export const Profile: React.FC = () => {
                     角色权限
                 </Grid>
                 <Grid item className={classes.value} >
-                    {userInfo?.role.map((item: string, i: number) => <Chip color="primary" key={i} label={item} />)}
+                    {userInfo?.role.map((item: string, i: number) => <Chip color="secondary" style={{ marginRight: '10px' }} key={i} label={item} />)}
                 </Grid>
             </Grid>
             <Grid className={classes.item} container spacing={1} alignItems="center">
-                <Button variant="contained" color="primary" onClick={handleLogout} >退出登录</Button>
+                <Button variant="contained" color="primary" onClick={handleLogout} >
+                    {logout_loading ? <CircularProgress style={{ color: 'white' }} size="1rem" /> : '退出登录'}
+                </Button>
             </Grid>
         </Grid>
 

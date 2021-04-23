@@ -1,17 +1,16 @@
 import request from "src/request";
 
-export interface PostSignInBody {
-  username: string;
-  password: string;
+export interface postGetUserInfoBody {
+  uid: string;
 }
 export interface PostLogOutBody {
   token: string | Array<string>;
 }
 
 // 登录
-export function postSignIn(data: PostSignInBody) {
+export function postGetUserInfo(data: postGetUserInfoBody) {
   return request({
-    url: "/login",
+    url: "/getUserInfo",
     method: "post",
     data,
   });
@@ -24,3 +23,12 @@ export function postLogOut(data: PostLogOutBody) {
     data,
   });
 }
+// 上传文件
+export function postUpdateUserInfo(data: any) {
+  return request({
+    url: "/updateUserInfo",
+    method: "post",
+    data,
+  });
+}
+

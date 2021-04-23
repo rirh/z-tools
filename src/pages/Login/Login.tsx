@@ -8,6 +8,7 @@ import { HOME_URL } from 'src/pages/Home/Home'
 import { RootState } from 'src/app/store'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserInfo } from 'src/pages/Login/_store'
+import { updateNotice } from 'src/app/app'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -82,15 +83,22 @@ export const Login: React.FC = () => {
 
     const handleLogin = async () => {
         setLoading(true);
-        const respone: any = await postSignIn({
-            username: user,
-            password: pwd,
-        })
-        setLoading(false);
-        dispatch(updateUserInfo(respone));
-        if (respone.code === 0) {
-            history.push(HOME_URL)
+        try {
+            const respone: any = await postSignIn({
+                username: user,
+                password: pwd,
+            })
+            setLoading(false);
+            if (respone.code === 0) {
+                dispatch(updateUserInfo(respone));
+                history.push(HOME_URL)
+            } else {
+                dispatch(updateNotice({ open: true, message: respone.message || respone.msg, severity: 'error' }))
+            }
+        } catch (error) {
+
         }
+
     }
     return <>
         <Grid container className={classes.root} >
@@ -113,11 +121,11 @@ export const Login: React.FC = () => {
                     </Grid>
                     <br />
                     <Grid className={classes.item}>
-                        <TextField id="user" size="medium" inputProps={{ "autoComplete": 'off' }} value={user} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser(e.target.value)} fullWidth placeholder="请输入邮箱" type="text" variant="outlined" />
+                        <TextField disabled={loading} id="user" size="medium" inputProps={{ "autoComplete": 'off' }} value={user} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUser(e.target.value)} fullWidth placeholder="请输入邮箱" type="text" variant="outlined" />
                     </Grid>
                     <br />
                     <Grid className={classes.item}>
-                        <TextField id="pwd" size="medium" inputProps={{ "autoComplete": 'off' }} value={pwd} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPwd(e.target.value)} fullWidth placeholder="请输入密码" type="password" variant="outlined" />
+                        <TextField disabled={loading} id="pwd" size="medium" inputProps={{ "autoComplete": 'off' }} value={pwd} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPwd(e.target.value)} fullWidth placeholder="请输入密码" type="password" variant="outlined" />
                     </Grid>
                     <Grid className={classes.item}>
                         <Button disabled={
@@ -129,7 +137,7 @@ export const Login: React.FC = () => {
                             {loading ? <CircularProgress style={{ color: 'white' }} size="1rem" /> : '登录'}
                         </Button>
                     </Grid>
-                    <br/>
+                    <br />
                 </Card>
             </Grid>
         </Grid>

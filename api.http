@@ -1,0 +1,6 @@
+POST https://8597e222-5d79-4aba-8825-7d8c02733833.bspapp.com/http/upload HTTP/1.1
+Content-Type:image/*
+
+{
+
+}
