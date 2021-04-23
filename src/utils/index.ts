@@ -1,8 +1,8 @@
 
 export function getUserName (userInfo:any){
  return userInfo.nickName
- ||userInfo?.username.split('-')[1]
- ||userInfo?.email.split('@')[0]
+ ||(userInfo?.username&&userInfo?.username.split('-')[1])
+ ||(userInfo?.email&&userInfo?.email.split('@')[0])
  ||''
 }
 
